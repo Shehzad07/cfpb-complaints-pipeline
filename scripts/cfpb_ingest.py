@@ -97,7 +97,7 @@ def build_session() -> requests.Session:
 
 def fetch_page(
     session, size: int, date_min: str, date_max: str, cursor=None
-    ) -> list[dict]:
+) -> list[dict]:
     """Fetch one page of complaints"""
     params = {
         "size": size,
@@ -111,6 +111,7 @@ def fetch_page(
     response = session.get(CFPB_API_URL, params=params, timeout=REQUEST_TIMEOUT)
     response.raise_for_status()
     return response.json().get("hits", {}).get("hits", [])
+
 
 def fetch_all(date_min: date, date_max: date, max_records: int) -> list[dict]:
     """Paginate until the window is exhausted or max_records is reached."""
