@@ -51,11 +51,44 @@ def clean_expression(col: str, sql_type: str, available: set[str]) -> str:
         return f"TRY_CAST({col} AS BIGINT) as {col}"
     if sql_type == "DATE":
         return f"TRY_CAST(substr(CAST({COL} AS VARCHAR), 1, 10) AS DATE) AS {col}"
-    return f"NULLIF(trim(CAST({col} as AS VARCHAR)), "") AS {col}"
+    return f"NULLIF(trim(CAST({col} as AS VARCHAR)), " ") AS {col}"
 
 
 def create_tables(con: duckdb.DuckDBPyConnection) -> None:
     con.execute("CREATE SCHEMA IF NOT EXIST silver")
     columns_defs = ",\n    ".join(
-        
+        f"{name}{typ}{' PRIMARY KEY' if name == 'complaint_id' else ''}"
+        for name, typ in COLUMNS.items()
     )
+    con.execute(f"""
+        CREATE TABLE IF NOT EXIST silver.complaints (
+            {columns_defs},
+            loaded_at TIMESTAMP
+        )
+    """)
+
+
+def build_silver() -> None:
+    if not list(BRONZE_DIR.glob("*/*.json")):
+        logger.warning("No bronze files found in %s. Nothing to do", BRONZE_DIR)
+        return
+
+    DB_PATH.parent.mkdir(parents=True, exist_ok=True)
+    con = duckdb.connect(str(DB_PATH))
+    create_tables(con)
+
+    source = (
+        f"read_json_auto('{BRONZE_DIR.as_posix()}/*/*.json', "
+        "union_by_name=true, file_name=true)"
+    )
+
+    available = {
+        row[0] for row in con.execute(f"DESCRIBE SELECT * FROM {source}").fetchall()
+    }
+    missing = set(COLUMNS) - availble
+    if missing:
+        logger.warning("Column missing in bronze (will be Null): %s", sorted(missing))
+    if "complaint_id" not in available:
+        raise RuntimeError(
+            "Bronze data has no complaint_id column. Cannot build silver."
+        )
