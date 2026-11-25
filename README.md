@@ -169,7 +169,7 @@ The second run fetches the same records again, which is intended. Bronze keeps e
 - [x] Append-only bronze layer with atomic writes
 - [x] Backfill option
 - [ ] Measure publication lag and set the lookback window from real data
-- [ ] Silver layer: clean, type, and deduplicate by `complaint_id` using an upsert
+- [x] Silver layer: clean, type, and deduplicate by `complaint_id` using an upsert — 85,037 bronze rows reduced to 52,817 unique complaints.
 - [ ] Gold layer: complaints by company/month, top issues, timely-response rate
 - [ ] Unit tests with `pytest` and a mocked API
 - [ ] Airflow DAG with a daily schedule
