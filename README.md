@@ -37,12 +37,6 @@ Silver 4. cleaned, typed, one row per complaint_id (upsert)
    |
    v
 Gold   5. aggregates for analysis
-
-Silver   cleaned, typed, one row per complaint_id (upsert into DuckDB)
-   |
-   v
-Gold     summary tables: daily volume, top companies, top issues, timely-response rate
- fd8011a (docs: update README, gold, and measured 5-day lookback)
 ```
 
 ### Key design decisions
@@ -228,14 +222,8 @@ The smallest counts are at the end, because the newest days are not fully publis
 - [x] Cursor-based pagination (`search_after`) for full daily volume
 - [x] Append-only bronze layer with atomic writes
 - [x] Backfill option
-<<<<<<< HEAD
-- [ ] Measure publication lag and set the lookback window from real data
 - [x] Silver layer: clean, type, and deduplicate by `complaint_id` using an upsert — 85,037 bronze rows reduced to 52,817 unique complaints.
-- [x] Gold layer: complaints by company/month, top issues, timely-response rate
-- [ ] Unit tests with `pytest` and a mocked API
-- [ ] Airflow DAG with a daily schedule
 - [x] Measure publication lag and set the lookback window from real data
-- [x] Silver layer: clean, type, and deduplicate by `complaint_id` using an upsert (85,037 bronze rows reduced to 52,817 unique complaints)
 - [x] Gold layer: daily volume, top companies, top issues, timely-response rate
 - [ ] Unit tests with `pytest` (watermark, paging with a fake API, silver idempotency, gold)
 - [ ] Airflow DAG running ingest, silver, and gold daily
