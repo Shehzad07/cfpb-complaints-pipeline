@@ -32,10 +32,10 @@ Bronze   raw JSON, one NEW file per run (append-only)
    |
    |  3. update watermark ONLY after the file is safely written
    v
-Silver   (planned) cleaned, typed, one row per complaint_id (upsert)
+Silver 4. cleaned, typed, one row per complaint_id (upsert)
    |
    v
-Gold     (planned) aggregates for analysis
+Gold   5. aggregates for analysis
 ```
 
 ### Key design decisions
