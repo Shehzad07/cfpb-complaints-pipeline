@@ -32,9 +32,9 @@ STATE_FILE = Path("include/state/cfpb_state.json")
 
 PAGE_SIZE = 1000
 REQUEST_TIMEOUT = 30  # seconds
-LOOKBACK_DAYS = 1  # re-fetch yesterday, because today was partial last run
+LOOKBACK_DAYS = 5  # re-fetch yesterday, because today was partial last run
 INITIAL_LOAD_DAYS = 1  # first run: yesterday + today only
-DEFAULT_MAX_RECORDS = 150000  ## headroom for spikes
+DEFAULT_MAX_RECORDS = 300000  ## headroom for spikes
 
 logging.basicConfig(
     level=logging.INFO, format="%(asctime)s | %(levelname)s | %(message)s"
