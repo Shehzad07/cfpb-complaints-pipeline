@@ -234,7 +234,6 @@ The smallest counts are at the end, because the newest days are not fully publis
 - [x] Gold layer: complaints by company/month, top issues, timely-response rate
 - [ ] Unit tests with `pytest` and a mocked API
 - [ ] Airflow DAG with a daily schedule
-=======
 - [x] Measure publication lag and set the lookback window from real data
 - [x] Silver layer: clean, type, and deduplicate by `complaint_id` using an upsert (85,037 bronze rows reduced to 52,817 unique complaints)
 - [x] Gold layer: daily volume, top companies, top issues, timely-response rate
@@ -242,7 +241,6 @@ The smallest counts are at the end, because the newest days are not fully publis
 - [ ] Airflow DAG running ingest, silver, and gold daily
 - [ ] Silver: process only new bronze files
 - [ ] Bronze retention or Parquet compression
->>>>>>> fd8011a (docs: update README, gold, and measured 5-day lookback)
 - [ ] Docker Compose setup for Postgres and Airflow
 - [ ] Data quality checks
 
