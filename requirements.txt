@@ -1,4 +1,5 @@
-pandas==2.2.0
+pandas>=2.2.3
 requests==2.31.0
 psycopg2-binary==2.9.9
 dbt-postgres==1.7.4
+pytest==9.2.0
